@@ -183,6 +183,15 @@ def tljh_custom_jupyterhub_config(c):
     c.DockerSpawner.pull_policy = "Never"
     c.DockerSpawner.remove = True
 
+    # named servers
+    ## https://jupyterhub.readthedocs.io/en/stable/reference/config-user-env.html#named-servers
+    # c.JupyterHub.allow_named_servers = True
+
+    # persistent user storage
+    notebook_dir = os.environ.get('DOCKER_NOTEBOOK_DIR') or '/home/jovyan'
+    c.DockerSpawner.notebook_dir = notebook_dir
+    c.DockerSpawner.volumes = { 'jupyterhub-user-{username}--{imagename}': notebook_dir }
+
     # fetch limits from the TLJH config
     tljh_config = load_config()
     limits = tljh_config["limits"]
