@@ -219,4 +219,8 @@ def tljh_custom_jupyterhub_config(c):
 
 @hookimpl
 def tljh_extra_hub_pip_packages():
-    return ["dockerspawner~=0.11", "jupyter_client~=6.1", "aiodocker~=0.19"]
+    return [
+        "git+https://github.com/yamaton/dockerspawner",
+        "jupyter_client~=6.1",
+        "aiodocker~=0.19",
+    ]
