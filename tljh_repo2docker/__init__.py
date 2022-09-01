@@ -193,6 +193,10 @@ def tljh_custom_jupyterhub_config(c):
     c.DockerSpawner.default_url = "/lab"    # required when notebook_dir is set
     c.DockerSpawner.volumes = { 'jupyterhub-user-{username}--{imagename}': notebook_dir }
 
+    # timeout at startup
+    c.DockerSpawner.start_timeout = 300   # default is 60 sec
+    c.DockerSpawner.http_timeout = 300    # default is 30 sec
+
     # fetch limits from the TLJH config
     tljh_config = load_config()
     limits = tljh_config["limits"]
