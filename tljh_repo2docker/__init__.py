@@ -190,6 +190,7 @@ def tljh_custom_jupyterhub_config(c):
     # persistent user storage
     notebook_dir = os.environ.get('DOCKER_NOTEBOOK_DIR') or '/home/jovyan'
     c.DockerSpawner.notebook_dir = notebook_dir
+    c.DockerSpawner.default_url = "/lab"    # required when notebook_dir is set
     c.DockerSpawner.volumes = { 'jupyterhub-user-{username}--{imagename}': notebook_dir }
 
     # fetch limits from the TLJH config
