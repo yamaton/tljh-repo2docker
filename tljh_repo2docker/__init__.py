@@ -1,4 +1,5 @@
 import os
+import nativeauthenticator
 
 from aiodocker import Docker
 from dockerspawner import DockerSpawner
@@ -170,8 +171,7 @@ class Repo2DockerSpawner(SpawnerMixin, DockerSpawner):
 def tljh_custom_jupyterhub_config(c):
     # hub
     c.JupyterHub.hub_ip = public_ips()[0]
-    c.JupyterHub.cleanup_servers = False
-    c.JupyterHub.spawner_class = Repo2DockerSpawner
+    c.JupyterHub.cleanup_servers = True
 
     # add extra templates for the service UI
     c.JupyterHub.template_paths.insert(
@@ -179,9 +179,25 @@ def tljh_custom_jupyterhub_config(c):
     )
 
     # spawner
+    c.JupyterHub.spawner_class = Repo2DockerSpawner
     c.DockerSpawner.cmd = ["jupyterhub-singleuser"]
     c.DockerSpawner.pull_policy = "Never"
     c.DockerSpawner.remove = True
+
+    # authenticator
+    c.JupyterHub.authenticator_class = "nativeauthenticator.NativeAuthenticator"
+    c.JupyterHub.template_paths.append(
+        os.path.join(os.path.dirname(nativeauthenticator.__file__), "templates")
+    )
+
+    c.NativeAuthenticator.check_common_password = False
+    c.NativeAuthenticator.allowed_failed_logins = 0
+    c.NativeAuthenticator.seconds_before_next_try = 600
+    c.NativeAuthenticator.enable_signup = True
+    c.NativeAuthenticator.open_signup = True
+    c.NativeAuthenticator.ask_email_on_signup = False
+    c.NativeAuthenticator.allow_2fa = False
+
 
     # named servers
     ## https://jupyterhub.readthedocs.io/en/stable/reference/config-user-env.html#named-servers
@@ -226,6 +242,7 @@ def tljh_custom_jupyterhub_config(c):
 def tljh_extra_hub_pip_packages():
     return [
         "git+https://github.com/yamaton/dockerspawner",
-        "jupyter_client~=6.1",
-        "aiodocker~=0.19",
+        "jupyterhub-nativeauthenticator~=1.0",
+        "jupyter_client~=7.3",
+        "aiodocker~=0.21",
     ]

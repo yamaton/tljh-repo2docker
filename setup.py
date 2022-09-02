@@ -8,7 +8,8 @@ setup(
     include_package_data=True,
     install_requires=[
         "dockerspawner @ git+https://github.com/jupyterhub/dockerspawner",
-        "jupyter_client~=6.1",
-        "aiodocker~=0.19",
+        "jupyterhub-nativeauthenticator~=1.0",
+        "jupyter_client~=7.3",
+        "aiodocker~=0.21",
     ],
 )
