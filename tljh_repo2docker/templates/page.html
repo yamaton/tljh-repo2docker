@@ -10,4 +10,10 @@
             {% endfor %}
         {% endif %}
     {% endif %}
+
+    {# From nativeauthenticator #}
+    <li><a href="{{base_url}}change-password">Change Password</a></li>
+    {% if user.admin %}
+        <li><a href="{{base_url}}authorize">Authorize Users</a></li>
+    {% endif %}
 {% endblock %}
