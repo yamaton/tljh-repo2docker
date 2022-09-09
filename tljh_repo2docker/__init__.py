@@ -177,6 +177,9 @@ def tljh_custom_jupyterhub_config(c):
     c.JupyterHub.template_paths.insert(
         0, os.path.join(os.path.dirname(__file__), "templates")
     )
+    c.JupyterHub.template_paths.insert(
+        1, os.path.join(os.path.dirname(nativeauthenticator.__file__), "templates")
+    )
 
     # spawner
     c.JupyterHub.spawner_class = Repo2DockerSpawner
@@ -186,9 +189,6 @@ def tljh_custom_jupyterhub_config(c):
 
     # authenticator
     c.JupyterHub.authenticator_class = "nativeauthenticator.NativeAuthenticator"
-    c.JupyterHub.template_paths.append(
-        os.path.join(os.path.dirname(nativeauthenticator.__file__), "templates")
-    )
 
     c.NativeAuthenticator.check_common_password = False
     c.NativeAuthenticator.allowed_failed_logins = 0
