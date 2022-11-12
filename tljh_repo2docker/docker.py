@@ -111,7 +111,7 @@ async def build_image(
 
     config = {
         "Cmd": cmd,
-        "Image": "quay.io/jupyterhub/repo2docker:2022.02.0-90.g0345a86",
+        "Image": "quay.io/jupyterhub/repo2docker:main",
         "Labels": {
             "repo2docker.repo": repo,
             "repo2docker.ref": ref,
